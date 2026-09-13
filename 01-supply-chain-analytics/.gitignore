@@ -1,0 +1,19 @@
+# Python virtual environments
+**/.venv/
+
+# Secrets
+**/.env
+
+# Python cache
+**/__pycache__/
+**/*.pyc
+
+# Raw datasets
+**/data/raw/
+
+# Downloaded archives
+*.zip
+
+# Operating system files
+.DS_Store
+Thumbs.db

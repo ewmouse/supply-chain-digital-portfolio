@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Supply Chain Exception Analytics
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/styles.css"
+    >
+</head>
+
+
+<body>
+
+    <header class="topbar">
+
+        <div>
+
+            <h1>
+                Supply Chain Exception Analytics
+            </h1>
+
+            <p>
+                Inventory health, supplier performance
+                and exception management
+            </p>
+
+        </div>
+
+        <div class="snapshot-box">
+
+            <span>
+                Snapshot
+            </span>
+
+            <strong id="snapshotDate">
+                --
+            </strong>
+
+        </div>
+
+    </header>
+
+
+    <main class="page-container">
+
+        <!-- ============================= -->
+        <!-- Overview KPI                  -->
+        <!-- ============================= -->
+
+        <section>
+
+            <div class="section-title">
+
+                <div>
+                    <h2>Supply Chain Overview</h2>
+
+                    <p>
+                        Latest operational snapshot
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="kpi-grid">
+
+                <div class="kpi-card">
+
+                    <span>Total Part-Site</span>
+
+                    <strong id="totalPartSite">
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <span>Total Exceptions</span>
+
+                    <strong id="exceptionCount">
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <span>Confirmed Shortage</span>
+
+                    <strong id="confirmedShortage">
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <span>Shortage Risk</span>
+
+                    <strong id="shortageRisk">
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <span>Excess Candidate</span>
+
+                    <strong id="excessCandidate">
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <span>Inventory Value</span>
+
+                    <strong id="inventoryValue">
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <span>Blocked Value</span>
+
+                    <strong id="blockedValue">
+                        --
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ============================= -->
+        <!-- Exception Workbench           -->
+        <!-- ============================= -->
+
+        <section class="panel">
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        Exception Workbench
+                    </h2>
+
+                    <p>
+                        Prioritized inventory exceptions
+                        requiring planner review
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="downloadButton"
+                    class="secondary-button"
+                >
+                    Download CSV
+                </button>
+
+            </div>
+
+
+            <div class="filters">
+
+                <label>
+
+                    Priority
+
+                    <select id="priorityFilter">
+
+                        <option value="">
+                            All
+                        </option>
+
+                        <option value="P1">
+                            P1
+                        </option>
+
+                        <option value="P2">
+                            P2
+                        </option>
+
+                        <option value="P3">
+                            P3
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label>
+
+                    Site
+
+                    <select id="siteFilter">
+
+                        <option value="">
+                            All Sites
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label>
+
+                    Exception
+
+                    <select id="exceptionFilter">
+
+                        <option value="">
+                            All Types
+                        </option>
+
+                        <option value="CONFIRMED_SHORTAGE">
+                            Confirmed Shortage
+                        </option>
+
+                        <option value="SHORTAGE_RISK">
+                            Shortage Risk
+                        </option>
+
+                        <option value="BLOCKED_STOCK">
+                            Blocked Stock
+                        </option>
+
+                        <option value="EXCESS_CANDIDATE">
+                            Excess Candidate
+                        </option>
+
+                        <option value="NO_DEMAND_STOCK">
+                            No-Demand Stock
+                        </option>
+
+                    </select>
+
+                </label>
+
+            </div>
+
+
+            <div
+                id="exceptionLoading"
+                class="message"
+            >
+                Loading exceptions...
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Priority</th>
+                            <th>Site</th>
+                            <th>Part</th>
+                            <th>Family</th>
+                            <th>Class</th>
+                            <th>Supplier</th>
+                            <th>Exception</th>
+                            <th>Coverage</th>
+                            <th>Gap Qty</th>
+                            <th>OTIF</th>
+                            <th>Suggested Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="exceptionTableBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ============================= -->
+        <!-- Supplier Performance          -->
+        <!-- ============================= -->
+
+        <section class="panel">
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        Supplier Performance
+                    </h2>
+
+                    <p>
+                        Delivery and quality risk overview
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Supplier</th>
+                            <th>Risk Class</th>
+                            <th>PO Count</th>
+                            <th>OTIF</th>
+                            <th>Fill Rate</th>
+                            <th>Avg Late Days</th>
+                            <th>Critical Quality</th>
+                            <th>A-Class Parts</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="supplierTableBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ============================= -->
+    <!-- Part Detail Drawer            -->
+    <!-- ============================= -->
+
+    <div
+        id="drawerOverlay"
+        class="drawer-overlay hidden"
+    >
+    </div>
+
+
+    <aside
+        id="partDrawer"
+        class="drawer"
+    >
+
+        <div class="drawer-header">
+
+            <div>
+
+                <span class="drawer-label">
+                    PART DETAIL
+                </span>
+
+                <h2 id="drawerPartId">
+                    --
+                </h2>
+
+            </div>
+
+
+            <button
+                id="closeDrawerButton"
+                class="close-button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            id="drawerContent"
+            class="drawer-content"
+        >
+        </div>
+
+    </aside>
+
+
+    <script src="/static/app.js"></script>
+
+</body>
+
+</html>
