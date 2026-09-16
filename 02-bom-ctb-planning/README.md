@@ -41,6 +41,9 @@ Shortage Detection
 Where-used / Affected Finished Goods
         ↓
 What-if Supply Scenario
+```
+
+---
 
 ## Core Features / 核心功能
 
@@ -56,17 +59,28 @@ The application combines component demand, on-hand inventory and weekly supply t
 
 系统结合零部件需求、现有库存和未来供应，按周滚动计算 Projected Balance，并识别首次缺料时间。
 
+```text
+Projected Balance(t)
+= Projected Balance(t-1)
++ Supply(t)
+- Demand(t)
+```
+
 ### 3. Supply Scenario Planning / 供需情景规划
 
 Users can edit weekly supply quantities or move planned supply between weeks to simulate supply reduction, delay and recovery scenarios.
 
 用户可调整未来供应数量或到货周次，用于模拟供应减少、延迟及恢复情景。
 
+![Supply Scenario](./docs/screenshots/supply-scenario.png)
+
 ### 4. BOM Editor & Validation / BOM 编辑与校验
 
 Users can maintain BOM relationships in the browser and validate duplicates, invalid quantities, self-reference and BOM cycles before saving.
 
 支持网页端维护 BOM，并在保存前检查重复关系、异常用量、自引用及循环 BOM。
+
+![BOM Editor and Validation](./docs/screenshots/bom-editor-validation.png)
 
 ### 5. Where-used / 反向物料追溯
 
@@ -87,8 +101,6 @@ Components can be traced upward through the BOM to identify affected semi-finish
 - **HTML / CSS / JavaScript** — web interface
 - **Handsontable** — editable planning and BOM tables
 - **Git / GitHub** — version control and project documentation
-
-主要使用 Python、PostgreSQL 和 FastAPI 搭建计算与数据存储逻辑，并通过 HTML、CSS、JavaScript 和 Handsontable 实现可编辑的计划页面。
 
 ---
 
@@ -139,9 +151,9 @@ data/
 │
 ├── docs/
 │   └── screenshots/
+│       ├── bom-editor-validation.png
 │       ├── planning-overview.png
 │       ├── supply-scenario.png
-│       ├── bom-editor-validation.png
 │       └── where-used-trace.png
 │
 ├── .env.example
@@ -164,15 +176,9 @@ CREATE DATABASE bom_ctb;
 
 Copy `.env.example` to `.env` and update the PostgreSQL password.
 
-将 `.env.example` 复制为 `.env`，并填写本地 PostgreSQL 密码。
-
 ```text
 DATABASE_URL=postgresql+psycopg2://postgres:YOUR_PASSWORD@localhost:5432/bom_ctb
 ```
-
-Do not upload `.env` to GitHub.
-
-`.env` 中可能包含本地数据库密码，因此已通过 `.gitignore` 排除，不上传至 GitHub。
 
 ### 3. Create Virtual Environment / 创建虚拟环境
 
@@ -208,8 +214,6 @@ http://127.0.0.1:8000
 
 ## Suggested Demo Flow / 演示流程
 
-A simple demo can follow this sequence:
-
 1. Review the base Weekly CTB Planning Grid.
 2. Identify a material with shortage risk.
 3. Move planned supply from one week to another.
@@ -219,33 +223,11 @@ A simple demo can follow this sequence:
 7. Run BOM Validation.
 8. Use Where-used to trace a component back to affected finished goods.
 
-推荐演示顺序：
-
-```text
-查看 Base Plan
-        ↓
-找到缺料物料
-        ↓
-调整 Supply / Arrival Week
-        ↓
-重新计算 CTB
-        ↓
-观察 Shortage 变化
-        ↓
-保存 Scenario
-        ↓
-查看 BOM
-        ↓
-Where-used 追溯受影响成品
-```
-
 ---
 
 ## Current Scope / 当前项目范围
 
-This project intentionally focuses on transparent and explainable material-planning logic rather than building a full MRP or ERP system.
-
-当前版本主要用于展示多层 BOM、物料齐套、缺料识别和供需情景规划的核心逻辑，并未尝试模拟完整的 MRP、ERP 或生产计划系统。
+The current version focuses on transparent and explainable material-planning logic.
 
 The current version does not include:
 
@@ -256,21 +238,7 @@ The current version does not include:
 - Detailed order-priority allocation
 - Machine-learning demand forecasting
 
----
-
-## Limitations & Future Improvements / 局限与后续方向
-
-Possible future improvements include:
-
-- Adding Open PO / Open MO / Reservation data
-- Adding supplier lead-time constraints
-- Comparing multiple scenarios side by side
-- Separating incremental shortage from cumulative shortage exposure
-- Adding order-priority allocation for affected finished goods
-
-后续如继续扩展，可以加入 Open PO、Open MO、Reservation、Supplier Lead Time、Scenario 对比及订单优先级等功能。
-
-For the current portfolio version, the project scope is intentionally limited so that the planning logic remains understandable and explainable.
+当前版本主要用于展示多层 BOM、物料齐套、缺料识别和供需情景规划的核心逻辑，并未尝试模拟完整的 MRP、ERP 或生产计划系统。
 
 ---
 
