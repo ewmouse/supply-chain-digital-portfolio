@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BOM / CTB Scenario Planner</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable@14.6.2/dist/handsontable.full.min.css" />
+  <link rel="stylesheet" href="/static/style.css?v=151" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">CTB</div>
+        <div>
+          <h1>BOM Scenario Planner</h1>
+          <p>Material planning workspace</p>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-view="planningView">Planning</button>
+        <button class="nav-item" data-view="bomView">BOM & Where-used</button>
+      </nav>
+
+      <div class="side-section">
+        <span class="side-label">Scenario</span>
+        <input id="scenarioName" value="Base Scenario" />
+        <textarea id="scenarioRemark" placeholder="Add a planning note..."></textarea>
+        <button id="saveScenario" class="primary full">Save Scenario</button>
+      </div>
+
+      <div class="side-section">
+        <span class="side-label">Saved scenarios</span>
+        <select id="scenarioSelect"><option value="">Select scenario</option></select>
+        <button id="loadScenario" class="secondary full">Load Scenario</button>
+      </div>
+
+      <div class="side-note">
+        Edit future supply, move an arrival week and compare the impact on projected balance and shortage timing.
+      </div>
+    </aside>
+
+    <main class="main">
+      <section id="planningView" class="view active">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">PROJECT 02 · SUPPLY PLANNING</p>
+            <h2>Multi-Level BOM CTB & Scenario Planning</h2>
+            <p class="subtitle">Explode finished-goods demand, identify shortage risk and test supply scenarios.</p>
+          </div>
+          <div class="actions">
+            <button id="resetBase" class="ghost">Reset Base</button>
+            <button id="recalculate" class="primary">Recalculate</button>
+          </div>
+        </header>
+
+        <section class="cards">
+          <div class="card"><span>Materials</span><strong id="materialsCount">-</strong></div>
+          <div class="card danger"><span>Shortage Materials</span><strong id="shortageMaterials">-</strong></div>
+          <div class="card"><span>First Shortage Week</span><strong id="firstShortage">-</strong></div>
+          <div class="card"><span>Shortage Exposure</span><strong id="totalShortage">-</strong></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Weekly CTB Planning Grid</h3>
+              <p>Scenario Supply is editable. Balance and shortage are recalculated by the backend.</p>
+            </div>
+            <span class="status-pill" id="statusText">Base loaded</span>
+          </div>
+          <div id="hot"></div>
+        </section>
+
+        <section class="bottom-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Supply Arrival Adjustment</h3>
+                <p>Move planned supply from one week to another without changing total quantity.</p>
+              </div>
+            </div>
+            <div class="adjustment-grid">
+              <label>Material<select id="arrivalMaterial"></select></label>
+              <label>From Week<select id="arrivalFromWeek"></select></label>
+              <label>To Week<select id="arrivalToWeek"></select></label>
+              <label>Quantity<input id="arrivalQty" type="number" min="0" step="1" /></label>
+            </div>
+            <button id="applyArrival" class="primary">Apply & Recalculate</button>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Shortage Impact</h3>
+                <p>Short materials mapped back to affected finished goods.</p>
+              </div>
+            </div>
+            <div id="impactList" class="impact-list"></div>
+          </div>
+        </section>
+      </section>
+
+      <section id="bomView" class="view">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">MASTER DATA · BOM</p>
+            <h2>BOM Editor & Where-used</h2>
+            <p class="subtitle">Maintain parent-component relationships and validate the structure before recalculation.</p>
+          </div>
+          <div class="actions">
+            <button id="addBomRow" class="ghost">Add Row</button>
+            <button id="validateBom" class="ghost">Validate</button>
+            <button id="saveBom" class="primary">Save BOM</button>
+          </div>
+        </header>
+
+        <section class="bom-layout">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>BOM Structure</h3>
+                <p>Edit Parent, Component and Qty per directly in the grid.</p>
+              </div>
+              <span class="status-pill" id="bomStatus">Not checked</span>
+            </div>
+            <div id="bomHot"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>BOM Validation</h3>
+                <p>Checks duplicates, invalid quantities and BOM cycles.</p>
+              </div>
+            </div>
+            <div id="validationList" class="validation-list">
+              <div class="validation-empty">Run validation to check the BOM.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Where-used</h3>
+              <p>Trace a component upward through the BOM to finished goods.</p>
+            </div>
+          </div>
+          <div class="where-used-bar">
+            <input id="whereUsedInput" placeholder="e.g. RM_CHIP_X" value="RM_CHIP_X" />
+            <button id="runWhereUsed" class="primary">Trace</button>
+          </div>
+          <div id="whereUsedResult" class="where-used-result"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/handsontable@14.6.2/dist/handsontable.full.min.js"></script>
+  <script src="/static/app.js?v=151"></script>
+</body>
+</html>

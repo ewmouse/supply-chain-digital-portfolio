@@ -1,6 +1,16 @@
 from fastapi import FastAPI
 
-from backend.database import fetch_all, fetch_one
+from pydantic import BaseModel
+
+from backend.database import (
+    fetch_all,
+    fetch_one,
+    execute_readonly_query,
+)
+
+from backend.text_to_sql import (
+    generate_sql,
+)
 
 from pathlib import Path
 
@@ -14,6 +24,12 @@ app = FastAPI(
     title="Supply Chain Analytics API",
     version="1.0.0",
 )
+
+class AskRequest(
+    BaseModel
+):
+
+    question: str
 
 
 FRONTEND_DIR = (
@@ -372,3 +388,74 @@ def get_part_detail(
             purchase_orders,
         "supplier": supplier,
     }
+
+
+@app.post("/api/ask")
+def ask_supply_chain(
+    request: AskRequest
+):
+
+    try:
+
+        
+        generated_sql = (
+            generate_sql(
+                request.question
+            )
+        )
+
+
+        
+        rows = (
+            execute_readonly_query(
+                generated_sql
+            )
+        )
+
+
+        
+        columns = []
+
+        if rows:
+
+            columns = list(
+                rows[0].keys()
+            )
+
+
+        
+        return {
+            "question":
+                request.question,
+
+            "sql":
+                generated_sql,
+
+            "columns":
+                columns,
+
+            "row_count":
+                len(rows),
+
+            "rows":
+                rows,
+        }
+
+
+    except ValueError as error:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(error),
+        )
+
+
+    except Exception as error:
+
+        raise HTTPException(
+            status_code=500,
+            detail=(
+                "Text-to-SQL failed: "
+                + str(error)
+            ),
+        )

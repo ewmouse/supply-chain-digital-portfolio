@@ -1,0 +1,9 @@
+fg,week,demand_qty,product_family
+FG_A,2026-W38,80,Family Alpha
+FG_A,2026-W39,100,Family Alpha
+FG_A,2026-W40,110,Family Alpha
+FG_A,2026-W41,120,Family Alpha
+FG_B,2026-W38,50,Family Beta
+FG_B,2026-W39,60,Family Beta
+FG_B,2026-W40,70,Family Beta
+FG_B,2026-W41,80,Family Beta

@@ -1105,6 +1105,212 @@ function downloadExceptionsCsv() {
 }
 
 
+async function askSupplyChain() {
+
+    const input =
+        document.getElementById(
+            "askInput"
+        );
+
+
+    const question =
+        input.value.trim();
+
+
+    if (!question) {
+
+        return;
+
+    }
+
+
+    const status =
+        document.getElementById(
+            "askStatus"
+        );
+
+
+    status.textContent =
+        "Generating SQL...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/ask",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            {
+                                question:
+                                    question
+                            }
+                        )
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail
+                || "Query failed."
+            );
+
+        }
+
+
+        const preview =
+            document.getElementById(
+                "sqlPreview"
+            );
+
+
+        preview.textContent =
+            data.sql;
+
+
+        preview.classList.remove(
+            "hidden"
+        );
+
+
+        renderAskResults(
+            data.columns,
+            data.rows
+        );
+
+
+        status.textContent =
+            `${data.row_count} rows returned.`;
+
+    }
+    catch (error) {
+
+        status.textContent =
+            error.message;
+
+    }
+}
+
+function renderAskResults(
+    columns,
+    rows
+) {
+
+    const head =
+        document.getElementById(
+            "askTableHead"
+        );
+
+
+    const body =
+        document.getElementById(
+            "askTableBody"
+        );
+
+
+    head.innerHTML = "";
+
+    body.innerHTML = "";
+
+
+    if (
+        columns.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const headerRow =
+        document.createElement(
+            "tr"
+        );
+
+
+    for (
+        const column
+        of columns
+    ) {
+
+        const th =
+            document.createElement(
+                "th"
+            );
+
+
+        th.textContent =
+            column;
+
+
+        headerRow.appendChild(
+            th
+        );
+
+    }
+
+
+    head.appendChild(
+        headerRow
+    );
+
+
+    for (
+        const row
+        of rows
+    ) {
+
+        const tr =
+            document.createElement(
+                "tr"
+            );
+
+
+        for (
+            const column
+            of columns
+        ) {
+
+            const td =
+                document.createElement(
+                    "td"
+                );
+
+
+            td.textContent =
+                row[column]
+                ?? "";
+
+
+            tr.appendChild(
+                td
+            );
+
+        }
+
+
+        body.appendChild(
+            tr
+        );
+
+    }
+}
+
+
 document
     .getElementById(
         "priorityFilter"
@@ -1196,5 +1402,14 @@ async function initializeDashboard() {
     }
 }
 
+
+document
+    .getElementById(
+        "askButton"
+    )
+    .addEventListener(
+        "click",
+        askSupplyChain
+    );
 
 initializeDashboard();

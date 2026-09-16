@@ -52,11 +52,11 @@
     </header>
 
 
+
+    
     <main class="page-container">
 
-        <!-- ============================= -->
-        <!-- Overview KPI                  -->
-        <!-- ============================= -->
+        
 
         <section>
 
@@ -156,9 +156,6 @@
         </section>
 
 
-        <!-- ============================= -->
-        <!-- Exception Workbench           -->
-        <!-- ============================= -->
 
         <section class="panel">
 
@@ -312,9 +309,7 @@
         </section>
 
 
-        <!-- ============================= -->
-        <!-- Supplier Performance          -->
-        <!-- ============================= -->
+        
 
         <section class="panel">
 
@@ -367,12 +362,77 @@
 
         </section>
 
+        <section class="panel">
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Ask Your Supply Chain Data
+            </h2>
+
+            <p>
+                Natural-language query with
+                read-only SQL execution
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="ask-box">
+
+        <input
+            id="askInput"
+            type="text"
+            placeholder="e.g. Show P1 exceptions in SITE01"
+        >
+
+        <button
+            id="askButton"
+            class="primary-button"
+        >
+            Generate & Run
+        </button>
+
+    </div>
+
+
+    <div
+        id="askStatus"
+        class="message"
+    >
+    </div>
+
+
+    <pre
+        id="sqlPreview"
+        class="sql-preview hidden"
+    ></pre>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead id="askTableHead">
+            </thead>
+
+            <tbody id="askTableBody">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
     </main>
 
 
-    <!-- ============================= -->
-    <!-- Part Detail Drawer            -->
-    <!-- ============================= -->
+    
 
     <div
         id="drawerOverlay"
