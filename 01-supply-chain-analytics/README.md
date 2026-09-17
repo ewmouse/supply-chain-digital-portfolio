@@ -5,8 +5,7 @@ A supply chain analytics demo for inventory health monitoring, supplier performa
 
 一个面向供应链计划与异常管理场景的数字化分析项目，整合库存、需求、采购订单及供应商质量数据，通过 PostgreSQL、SQL、FastAPI 和 Web Dashboard 实现异常识别、优先级管理、供应商履约分析、物料下钻及自然语言数据查询。
 
-> This project is built with public synthetic supply-chain data. No confidential company or internship data is used.  
-> 本项目使用公开模拟供应链数据，不包含任何实习公司或企业内部数据。
+> 本项目使用模拟数据进行作品集展示，不包含任何敏感数据。数据来源：kaggle公开数据https://www.kaggle.com/datasets/robertocarlost/aerospace-supply-chain-performance-and-forecasting
 
 ---
 
@@ -639,4 +638,3 @@ Potential improvements include:
 
 This project is independently developed for learning and portfolio demonstration purposes using public synthetic data.
 
-本项目仅用于个人学习、求职作品集及技术展示。所有数据均为公开模拟数据，不涉及任何企业内部、实习公司或保密业务数据。

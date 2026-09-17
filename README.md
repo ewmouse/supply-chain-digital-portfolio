@@ -7,7 +7,7 @@ Personal portfolio focused on supply chain analytics, exception management and m
 
 All projects use public or synthetic data. No company-sensitive information is included.
 
-所有项目均使用公开或模拟数据，不包含任何实习公司的真实敏感数据。
+> 本项目使用模拟数据进行作品集展示，不包含任何敏感数据。数据来源：kaggle公开数据https://www.kaggle.com/datasets/robertocarlost/aerospace-supply-chain-performance-and-forecasting
 
 ---
 

@@ -7,7 +7,7 @@ A personal supply-chain planning project for multi-level BOM explosion, weekly C
 
 > Data used in this project is synthetic and created for portfolio demonstration. No company-sensitive data is included.
 >
-> 本项目使用模拟数据进行作品集展示，不包含任何实习公司的真实或敏感数据。
+> 本项目使用模拟数据进行作品集展示，不包含任何敏感数据。数据来源：kaggle公开数据https://www.kaggle.com/datasets/robertocarlost/aerospace-supply-chain-performance-and-forecasting
 
 ---
 
@@ -248,4 +248,3 @@ This is a personal portfolio project based on synthetic supply-chain data.
 
 It is not a production system and does not contain confidential data from Michelin, Schneider Electric or any other company.
 
-本项目为个人供应链数字化作品集，使用模拟数据开发，不包含米其林、施耐德电气或其他公司的真实业务数据及敏感信息。
