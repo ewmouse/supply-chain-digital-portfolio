@@ -632,9 +632,3 @@ Potential improvements include:
 - Deployment to a cloud environment
 - Additional visualization and trend analysis
 
----
-
-## Disclaimer / 说明
-
-This project is independently developed for learning and portfolio demonstration purposes using public synthetic data.
-

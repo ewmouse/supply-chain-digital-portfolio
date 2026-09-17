@@ -240,11 +240,3 @@ The current version does not include:
 
 当前版本主要用于展示多层 BOM、物料齐套、缺料识别和供需情景规划的核心逻辑，并未尝试模拟完整的 MRP、ERP 或生产计划系统。
 
----
-
-## Disclaimer / 项目说明
-
-This is a personal portfolio project based on synthetic supply-chain data.
-
-It is not a production system and does not contain confidential data from Michelin, Schneider Electric or any other company.
-
